@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth.base_user import AbstractBaseUser
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class Guest(AbstractBaseUser, models.Model):
@@ -42,7 +43,18 @@ class Booking(models.Model):
     stay = models.CharField(max_length=30)
     check_in = models.DateField()
     check_out = models.DateField()
+    number_guests = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(6)])
+    number_rooms = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(3)])
     user = models.ForeignKey(Guest, on_delete=models.PROTECT)
+
+    def get_username(self):
+        return self.user.username
+
+class Review(models.Model): 
+    user = models.ForeignKey(Guest, on_delete=models.PROTECT)
+    stay = models.CharField(max_length=13)
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    comment = models.CharField(max_length=400)
 
     def get_username(self):
         return self.user.username

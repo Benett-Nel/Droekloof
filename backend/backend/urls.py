@@ -15,11 +15,15 @@ router = routers.DefaultRouter()
 # register the router
 router.register(r'guests',views.GuestView, 'guest')
 router.register(r'bookings', views.BookingView, 'booking')
+router.register(r'reviews', views.ReviewView, 'review')
+
  
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # when you visit the localhost:8000/api
     # you should be routed to the django Rest framework
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+
+    path('', include("guesthouse.urls")),
 ]
