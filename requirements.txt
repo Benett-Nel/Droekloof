@@ -1,0 +1,4 @@
+#python and django is required
+
+# yarn is required
+npm install --global yarn
